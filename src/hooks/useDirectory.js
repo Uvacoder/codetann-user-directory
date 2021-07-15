@@ -3,6 +3,17 @@ import data from "./data";
 
 export default function useDirectory() {
   const [directory, setDirectory] = useState(data);
+  const [index, setIndex] = useState(0);
+  const current = directory[index];
+  const length = directory.length;
+
+  const next = () => {
+    if (index + 1 < length) setIndex((prevState) => (prevState += 1));
+  };
+
+  const prev = () => {
+    if (index > 0) setIndex((prevState) => (prevState -= 1));
+  };
 
   const add = (input) => {
     try {
@@ -22,5 +33,13 @@ export default function useDirectory() {
     // code will go here
   };
 
-  return [directory, add, remove, edit];
+  const actions = {
+    add,
+    remove,
+    edit,
+    next,
+    prev,
+  };
+
+  return [actions, current, length, index];
 }
