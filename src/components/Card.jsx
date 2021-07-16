@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
 
-export default function Card({ details, length, actions }) {
+export default function Card({
+  details,
+  length,
+  actions,
+  menuToggle,
+  setMenuToggle,
+}) {
   const { id, photo, name, city, country, employer, title, favoriteMovies } =
     details;
-  const [menuToggle, setMenuToggle] = useState(false);
+
   const [modalToggle, setModalToggle] = useState(false);
 
   const handleDelete = () => {

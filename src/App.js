@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 // hooks
 import useDirectory from "./hooks/useDirectory";
@@ -8,10 +8,11 @@ import Card from "./components/Card";
 
 function App() {
   const [actions, current, length, index] = useDirectory();
+  const [menuToggle, setMenuToggle] = useState(false);
 
   return (
     <Application>
-      <NavBar actions={actions} />
+      <NavBar actions={actions} setMenuToggle={setMenuToggle} />
       <CardContainer>
         <Box>
           {index !== 0 && (
@@ -19,7 +20,13 @@ function App() {
           )}
         </Box>
 
-        <Card actions={actions} details={current} length={length} />
+        <Card
+          menuToggle={menuToggle}
+          setMenuToggle={setMenuToggle}
+          actions={actions}
+          details={current}
+          length={length}
+        />
 
         <Box>
           {index !== length - 1 && (

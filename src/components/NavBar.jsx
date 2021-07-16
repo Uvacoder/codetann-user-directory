@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import Modal from "./Modal";
 
-export default function NavBar({ actions }) {
+export default function NavBar({ actions, setMenuToggle }) {
   const [toggle, setToggle] = useState(false);
 
   const handleClick = () => {
     setToggle(true);
+    setMenuToggle(false);
   };
   return (
     <Container>

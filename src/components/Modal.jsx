@@ -122,7 +122,9 @@ export default function Modal({ setToggle, actions, details = initilal }) {
 
         <Buttons>
           <CancelButton onClick={() => setToggle(false)}>Cancel</CancelButton>
-          <AddButton onClick={handleAdd}>Add</AddButton>
+          <AddButton onClick={handleAdd}>
+            {details.id ? "Save" : "Add"}
+          </AddButton>
         </Buttons>
       </Container>
     </>
