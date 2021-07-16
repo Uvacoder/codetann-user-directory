@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Modal from "./Modal";
 
-export default function NavBar() {
+export default function NavBar({ actions }) {
   const [toggle, setToggle] = useState(false);
 
   const handleClick = () => {
@@ -12,8 +12,8 @@ export default function NavBar() {
   return (
     <Container>
       <h1>Directory</h1>
-      <button onClick={handleClick} className="fas fa-plus"></button>
-      {toggle && <Modal setToggle={setToggle} />}
+      <AddButton onClick={handleClick} className="fas fa-plus"></AddButton>
+      {toggle && <Modal actions={actions} setToggle={setToggle} />}
     </Container>
   );
 }
@@ -30,15 +30,15 @@ const Container = styled.div`
   h1 {
     color: white;
   }
+`;
 
-  button {
-    height: 3rem;
-    width: 3rem;
-    font-size: 22px;
-    color: white;
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
+const AddButton = styled.button`
+  height: 3rem;
+  width: 3rem;
+  font-size: 22px;
+  color: white;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `;

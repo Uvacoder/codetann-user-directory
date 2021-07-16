@@ -1,36 +1,129 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export default function Modal({ setToggle }) {
+let id = 10;
+const initilal = {
+  name: {
+    first: null,
+    last: null,
+  },
+  city: null,
+  photo: null,
+  country: null,
+  employer: null,
+  title: null,
+  favoriteMovies: null,
+};
+
+export default function Modal({ setToggle, actions, details = initilal }) {
+  const [first, setFirst] = useState(details.name.first ?? "");
+  const [last, setLast] = useState(details.name.last ?? "");
+  const [city, setCity] = useState(details.city ?? "");
+  const [url, setUrl] = useState(details.photo ?? "");
+  const [country, setCountry] = useState(details.country ?? "");
+  const [employer, setEmployer] = useState(details.employer ?? "");
+  const [title, setTitle] = useState(details.title ?? "");
+  const [movies, setMovies] = useState(
+    details.favoriteMovies ? details.favoriteMovies.join(", ") : ""
+  );
+
+  const handleAdd = () => {
+    if (
+      !first ||
+      !last ||
+      !url ||
+      !city ||
+      !country ||
+      !employer ||
+      !title ||
+      !movies
+    )
+      return;
+
+    const data = {
+      id: details.id ?? ++id,
+      photo: url,
+      name: {
+        first,
+        last,
+      },
+      city,
+      country,
+      employer,
+      title,
+      favoriteMovies: movies.replaceAll(" ", "").split(","),
+    };
+
+    if (details.id) actions.edit(details.id, data);
+    if (!details.id) actions.add(data);
+
+    setToggle(false);
+  };
+
   return (
     <>
       <Background />
       <Container>
-        <label htmlFor="">First Name</label>
-        <input type="text" />
+        <label>First Name</label>
+        <input
+          value={first}
+          onChange={(e) => setFirst(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">Last Name</label>
-        <input type="text" />
+        <label>Last Name</label>
+        <input
+          value={last}
+          onChange={(e) => setLast(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">City</label>
-        <input type="text" />
+        <label>Photo Url</label>
+        <input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">Country</label>
-        <input type="text" />
+        <label>City</label>
+        <input
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">Employer</label>
-        <input type="text" />
+        <label>Country</label>
+        <input
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">Title</label>
-        <input type="text" />
+        <label>Employer</label>
+        <input
+          value={employer}
+          onChange={(e) => setEmployer(e.target.value)}
+          type="text"
+        />
 
-        <label htmlFor="">Top 3 Movies</label>
-        <input type="text" />
+        <label>Title</label>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          type="text"
+        />
 
-        <div>
-          <button onClick={() => setToggle(false)}>Cancel</button>
-          <button>Add</button>
-        </div>
+        <label>Top 3 Movies</label>
+        <input
+          value={movies}
+          onChange={(e) => setMovies(e.target.value)}
+          type="text"
+        />
+
+        <Buttons>
+          <CancelButton onClick={() => setToggle(false)}>Cancel</CancelButton>
+          <AddButton onClick={handleAdd}>Add</AddButton>
+        </Buttons>
       </Container>
     </>
   );
@@ -77,14 +170,27 @@ const Container = styled.div`
     padding-left: 1rem;
     color: white;
   }
+`;
 
-  div {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-  }
-
-  button {
-    font-size: 14px;
-  }
+const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+`;
+const AddButton = styled.button`
+  background: #1eebb4;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  cursor: pointer;
+`;
+const CancelButton = styled.button`
+  background: none;
+  color: #ffffff8b;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  cursor: pointer;
 `;

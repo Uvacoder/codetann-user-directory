@@ -11,7 +11,7 @@ function App() {
 
   return (
     <Application>
-      <NavBar />
+      <NavBar actions={actions} />
       <CardContainer>
         <Box>
           {index !== 0 && (
@@ -19,7 +19,7 @@ function App() {
           )}
         </Box>
 
-        <Card details={current} length={length} />
+        <Card actions={actions} details={current} length={length} />
 
         <Box>
           {index !== length - 1 && (

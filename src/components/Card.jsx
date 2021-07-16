@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Modal from "./Modal";
 
-export default function Card({ details, length }) {
+export default function Card({ details, length, actions }) {
   const { id, photo, name, city, country, employer, title, favoriteMovies } =
     details;
+  const [menuToggle, setMenuToggle] = useState(false);
+  const [modalToggle, setModalToggle] = useState(false);
+
+  const handleDelete = () => {
+    actions.remove(id);
+    setMenuToggle(false);
+  };
+  const handleEdit = () => {
+    setModalToggle(true);
+    setMenuToggle(false);
+  };
+
+  useEffect(() => {
+    setMenuToggle(false);
+  }, [details]);
 
   return (
     <Container>
+      {modalToggle && (
+        <Modal setToggle={setModalToggle} details={details} actions={actions} />
+      )}
       <span>
-        <button className="fas fa-ellipsis-h"></button>
+        <MenuButton
+          onClick={() => setMenuToggle(!menuToggle)}
+          className="fas fa-ellipsis-h"
+        ></MenuButton>
+        {menuToggle && (
+          <Menu>
+            <EditButton onClick={handleEdit}>Edit</EditButton>
+            <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
+          </Menu>
+        )}
       </span>
 
       <Info>
@@ -66,12 +94,41 @@ const Container = styled.div`
   }
 
   button {
-    font-size: 18px;
-    color: #1eebb4;
-    border: none;
-    background: none;
-    cursor: pointer;
   }
+`;
+const MenuButton = styled.button`
+  font-size: 18px;
+  color: #1eebb4;
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: #081d34;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transform: translate(-30px, 50px);
+`;
+const EditButton = styled.button`
+  background: #1eebb4;
+
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  cursor: pointer;
+`;
+const DeleteButton = styled.button`
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  cursor: pointer;
 `;
 
 const Info = styled.div`
